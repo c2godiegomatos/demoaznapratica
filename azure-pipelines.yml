@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Servicos_Cloud2Go_conn'
+    subscriptionId: '09499dab-288c-4ca8-8a35-939850fe0469'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'AzureDevOps'
+    location: 'Brazil South'
+    templateLocation: 'Linked artifact'
+    csmFile: 'azuredeploy.json'
+    overrideParameters: '-projectName webcloud2go -linkedTemplateUri https://raw.githubusercontent.com/c2godiegomatos/demoaznapratica/master/linkedStorageAccount.json'
+    deploymentMode: 'Incremental'
